@@ -1,6 +1,7 @@
 package utils;
 
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Float;
 
 import main.Game;
 
@@ -28,9 +29,9 @@ public class HelpMethods {
 		
 		int value = lvlData[(int) yIndex][(int) xIndex];
 		
-		if (value >= 37 || value < 0 || value != 11)
-			return true;
-		return false;
+		if (value >= 48 || value < 0 || value != 11) {
+			return true; } else {
+		return false; }
 	}
 	
 	public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox, float xSpeed) {
@@ -43,10 +44,61 @@ public class HelpMethods {
 		}
 		else {
 		//left
+			return currentTile * Game.TILES_SIZE ; }
+		}
+		
+//	    if (xSpeed > 0) {
+//	        // moving right → snap to left side of next tile
+//	        int tileX = (int) ((hitbox.x + hitbox.width) / Game.TILES_SIZE);
+//	        return tileX * Game.TILES_SIZE - hitbox.width;
+//	    } else {
+//	        // moving left → snap to right side of previous tile
+//	        int tileX = (int) (hitbox.x / Game.TILES_SIZE);
+//	        return tileX * Game.TILES_SIZE;
+//	    }
+//		
+//	}
+//	
+	public static float GetEntityYPosUnderRoofOrAboveFloor(Rectangle2D.Float hitbox, float airSpeed) {
+		int currentTile = (int)(hitbox.y / Game.TILES_SIZE);
+		if(airSpeed > 0) {
+		//falling, touching floor
+			//current tile + 1 * tile size - entity height
+			int tileYPos = (currentTile + 1) * Game.TILES_SIZE;
+			int yOffset = (int)(Game.TILES_SIZE - hitbox.height);
+			return tileYPos + yOffset -1;
+		}
+		else {
+		//jumping
 			return currentTile * Game.TILES_SIZE;
 		}
 		
+//	    if (airSpeed > 0) {
+//	        // Falling → snap to floor
+//	        int tileY = (int) ((hitbox.y + hitbox.height) / Game.TILES_SIZE);
+//	        return tileY * Game.TILES_SIZE - hitbox.height;
+//	    } else {
+//	        // Jumping → snap just below roof
+//	        int tileY = (int) (hitbox.y / Game.TILES_SIZE);
+//	        return (tileY + 1) * Game.TILES_SIZE;
+//	    }
+
 	}
+	public static boolean IsEntityOnFloor(Rectangle2D.Float hitbox, int[][] lvlData) {
+		if (!IsSolid(hitbox.x, hitbox.y + hitbox.height + 1, lvlData))
+			if (!IsSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData))
+				return false;
+
+		return true;
+
+		
+//	    float xLeft  = hitbox.x;
+//	    float xRight = hitbox.x + hitbox.width - 1; // -1 so we stay inside box
+//	    float yCheck = hitbox.y + hitbox.height + 1;
+//
+//	    return IsSolid(xLeft, yCheck, lvlData) || IsSolid(xRight, yCheck, lvlData);
+	}
+	
 }
 	
 
