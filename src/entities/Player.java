@@ -24,7 +24,7 @@ public class Player extends Entity{
 	private int playerDir = -1;
 	private boolean moving = false, attacking = false;
 	private boolean left, up, right, down, jump;
-	private float playerSpeed = 2.0f;
+	private float playerSpeed = 1.0f * main.Game.SCALE;
 	private int[][]	 lvlData;
 	private float xDrawOffset = 13 * main.Game.SCALE;
 	private float yDrawOffset =  16 * main.Game.SCALE;
