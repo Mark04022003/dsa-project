@@ -1,8 +1,48 @@
 package utils;
 
+import static utils.Constants.EnemyConstants.ORC_BOYZ_HEIGHT;
+
 import main.Game;
 
 public class Constants {
+	
+	public static class EnemyConstants{
+		public static final int ORC_BOYZ = 0;
+		
+		public static final int IDLE = 0;
+		public static final int RUNNING = 1;
+		public static final int ATTACK = 2;
+		public static final int HIT = 3;
+		public static final int DEAD = 4;
+		
+		public static final int ORC_BOYZ_WIDTH_DEFAULT = 32;
+		public static final int ORC_BOYZ_HEIGHT_DEFAULT = 32;
+		
+		public static final int ORC_BOYZ_WIDTH = (int) (ORC_BOYZ_WIDTH_DEFAULT * Game.SCALE + 48);
+		public static final int ORC_BOYZ_HEIGHT = (int) (ORC_BOYZ_HEIGHT_DEFAULT * Game.SCALE + 48);
+		public static final int ORC_BOYZ_DRAWOFFSET_X = (int) (16* Game.SCALE);
+		public static final int ORC_BOYZ_DRAWOFFSET_Y = (int) (9 * Game.SCALE);
+		
+		public static int GetSpriteAmount(int enemyType, int enemyState) {
+			switch(enemyType) {
+			case ORC_BOYZ:
+				switch(enemyState) {
+				case IDLE:
+					return 6;
+				case RUNNING:
+					return 8;
+				case ATTACK:
+					return 6;
+				case HIT:
+					return 4;
+				case DEAD:
+					return 4;
+				}
+				
+			}
+			return 0;
+		}
+	}
 	
 	public static class Environment{
 		public static final int BIG_CLOUDS_WIDTH_DEFAULT = 448;

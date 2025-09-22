@@ -19,7 +19,7 @@ public class Player extends Entity{
 
 
 	private BufferedImage[][] animations;
-	private int aniTick, aniIndex, aniSpeed = 20;
+	private int aniTick, aniIndex, aniSpeed = 25;
 	private int playerAction = IDLE;
 	private int playerDir = -1;
 	private boolean moving = false, attacking = false;
@@ -55,7 +55,7 @@ public class Player extends Entity{
 	
 	public void render(Graphics g, int lvlOffset) {
 	    g.drawImage(animations[playerAction][aniIndex],(int) (hitbox.x - xDrawOffset) - lvlOffset,(int) (hitbox.y - yDrawOffset), width, height, null);
-//	    drawHitbox(g);
+	    drawHitbox(g, lvlOffset);
 	}
 	
 	
