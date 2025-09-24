@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import gamestates.Gamestates;
 import gamestates.Menu;
 import gamestates.Playing;
+import utils.LoadSave;
 
 public class Game implements Runnable{
 	
@@ -14,8 +15,10 @@ public class Game implements Runnable{
 	private final int FPS_SET = 120;
 	private final int UPS_SET = 200;
 
-	private Playing playing;
+	private Playing playing; 
 	private Menu menu;
+	
+	private Gamestates prevState = Gamestates.MENU;
 	
 	public final static int TILES_DEFAULT_SIZE = 32;
 	public final static float SCALE = 1.5f;
@@ -26,14 +29,13 @@ public class Game implements Runnable{
 	public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
 	
 	public Game() {
-		
 		initClasses();
 		gamePanel = new GamePanel(this);
 		gameWindow = new GameWindow(gamePanel);
 		
 		gamePanel.setFocusable(true);
 		gamePanel.requestFocus();
-		gamePanel.requestFocusInWindow();
+//		gamePanel.requestFocusInWindow();
 		startGameLoop();
 
 	}
@@ -55,6 +57,11 @@ public class Game implements Runnable{
 	}
 	
 	public void update() {
+		// Detect transition from MENU to PLAYING
+		if (prevState == Gamestates.MENU && Gamestates.state == Gamestates.PLAYING) {
+			playing.resetAll();
+		}
+		prevState = Gamestates.state;
 		gamePanel.updateGame();
 		switch(Gamestates.state) {
 		case MENU:

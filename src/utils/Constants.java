@@ -1,7 +1,5 @@
 package utils;
 
-import static utils.Constants.EnemyConstants.ORC_BOYZ_HEIGHT;
-
 import main.Game;
 
 public class Constants {
@@ -42,6 +40,24 @@ public class Constants {
 			}
 			return 0;
 		}
+		
+		public static int GetMaxHealth(int enemyType) {
+			switch(enemyType) {
+			case ORC_BOYZ:
+				return 10;
+			default:
+				return 1;
+			}
+		}
+		
+		public static int GetEnemyDmg(int enemyType) {
+			switch(enemyType) {
+			case ORC_BOYZ:
+				return 15;
+			default:
+				return 0;
+			}
+		}	
 	}
 	
 	public static class Environment{
