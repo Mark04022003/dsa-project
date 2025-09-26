@@ -9,12 +9,11 @@ import main.Game;
 
 public class OrcBoyz extends Enemy{
 	
-	private Rectangle2D.Float attackBox;
 	private int attackBoxOffsetX;
 
 	public OrcBoyz(float x, float y) {
 		super(x, y, ORC_BOYZ_WIDTH, ORC_BOYZ_HEIGHT, ORC_BOYZ);
-		initHitbox(x, y, (int) (32*Game.SCALE),(int) (32*Game.SCALE));
+		initHitbox(32, 32);
 		initAttackBox();
 		
 	}   
@@ -48,7 +47,7 @@ public class OrcBoyz extends Enemy{
 			updateInAir(lvlData);
 		}
 		else {
-			switch (enemyState) {
+			switch (state) {
 			case IDLE:
 				newState(RUNNING);
 				break;
@@ -82,10 +81,7 @@ public class OrcBoyz extends Enemy{
 	
 	
 
-	public void drawAttackbox(java.awt.Graphics g, int xLvlOffset) {
-		g.setColor(java.awt.Color.RED);
-		g.drawRect((int) attackBox.x - xLvlOffset, (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
-	}
+
 	
 	public int flipX() {
 		if (walkDir == LEFT) {
