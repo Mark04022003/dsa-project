@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import gamestates.Gamestates;
 import gamestates.Menu;
 import gamestates.Playing;
-import utils.LoadSave;
 
 public class Game implements Runnable{
 	

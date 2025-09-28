@@ -43,6 +43,7 @@ public class Playing extends State implements Statemethods{
 	
 	private boolean gameOver;
 	private boolean levelCompleted = false;
+	private boolean playerDying = false;
 	
 	public Playing(Game game) {
 		super(game);
@@ -101,7 +102,17 @@ public class Playing extends State implements Statemethods{
 			pauseOverlay.update();
 		} else if(levelCompleted) {
 			levelCompletedOverlay.update();
-		} else if (!gameOver){
+		}
+		
+		else if(gameOver) {
+			gameOverOverlay.update();
+		}
+		
+		else if(playerDying) {
+			player.update();
+		}
+		
+		else {
 			player.update();
 			objectManager.update();
 			levelManager.update();
@@ -164,6 +175,7 @@ public class Playing extends State implements Statemethods{
 		gameOver = false;
 		paused = false;
 		levelCompleted = false;
+		playerDying = false;
 		player.resetAll();
 		enemyManager.resetAllEnemies();
 		xLvlOffset = 0;
@@ -221,6 +233,8 @@ public class Playing extends State implements Statemethods{
 			else if(levelCompleted) {
 				levelCompletedOverlay.mousePressed(e);
 			}
+		} else {
+			gameOverOverlay.mousePressed(e);
 		}
 	}
 
@@ -232,6 +246,8 @@ public class Playing extends State implements Statemethods{
 			else if(levelCompleted) {
 				levelCompletedOverlay.mouseReleased(e);
 			}
+		} else {
+			gameOverOverlay.mouseReleased(e);
 		}
 	}
 
@@ -244,6 +260,8 @@ public class Playing extends State implements Statemethods{
 			else if(levelCompleted) {
 				levelCompletedOverlay.mouseMoved(e);
 			}
+		} else {
+			gameOverOverlay.mouseMoved(e);
 		}
 	}
 
@@ -315,6 +333,9 @@ public class Playing extends State implements Statemethods{
 		return levelManager;
 	}
 
+	public void setPlayerDying(boolean playerDying) {
+		this.playerDying = playerDying;
+	}
 
 	
 }

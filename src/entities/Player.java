@@ -87,7 +87,19 @@ public class Player extends Entity{
 		updateHealthBar();
 		
 		if(currentHealth <= 0) {
-			playing.setGameOver(true);
+			if(state != DEATH) {
+				state = DEATH;
+				aniIndex = 0;
+				aniTick = 0;
+				playing.setPlayerDying(true);
+			}
+			else if(aniIndex == GetSpriteAmount(DEATH)-1 && aniTick >= ANI_SPEED -1) {
+				playing.setGameOver(true);
+			}
+			else {
+				updateAnimationTick();
+			}
+//			playing.setGameOver(true);
 			return;
 		}
 		
