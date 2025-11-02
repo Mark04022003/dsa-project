@@ -62,40 +62,51 @@ public class LoadSave {
 	}
 	
 	public static BufferedImage[] GetAllLevels() {
-		URL url = LoadSave.class.getResource("/lvls");
-		File file = null;
-		
-		try {
-			file = new File(url.toURI());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-		
-		File[] files = file.listFiles();
-		File[] filesSorted = new File[files.length];
-		
-		for(int i = 0; i < filesSorted.length; i++) {
-			for(int j = 0; j < files.length; j++) {
-				if (files[j].getName().equals((i + 1) + ".png")) {
-					filesSorted[i] = files[j];
-					break;
-				}
-			}
-		}
-		
-		BufferedImage[] imgs = new BufferedImage[filesSorted.length];
-		
-		for(int i = 0; i < imgs.length; i++) {
-			try {
-				imgs[i] = ImageIO.read(filesSorted[i]);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return imgs;
-		
+	    ArrayList<BufferedImage> imgs = new ArrayList<>();
+
+	    try {
+	        // Get all level images listed in a manifest file inside /lvls
+	        InputStream levelListStream = LoadSave.class.getResourceAsStream("/lvls/level_list.txt");
+
+	        if (levelListStream != null) {
+	            // If you have a text file listing your levels (1.png, 2.png, ...)
+	            java.util.Scanner scanner = new java.util.Scanner(levelListStream);
+	            while (scanner.hasNextLine()) {
+	                String levelName = scanner.nextLine().trim();
+	                if (!levelName.isEmpty()) {
+	                    try (InputStream is = LoadSave.class.getResourceAsStream("/lvls/" + levelName)) {
+	                        if (is != null) {
+	                            imgs.add(ImageIO.read(is));
+	                        } else {
+	                            System.err.println("Missing level: " + levelName);
+	                        }
+	                    }
+	                }
+	            }
+	            scanner.close();
+	        } else {
+	            // Fallback: if running in Eclipse, list actual folder
+	            URL url = LoadSave.class.getResource("/lvls");
+	            if (url != null && "file".equals(url.getProtocol())) {
+	                File folder = new File(url.toURI());
+	                File[] files = folder.listFiles((dir, name) -> name.endsWith(".png"));
+	                if (files != null) {
+	                    java.util.Arrays.sort(files, (a, b) -> {
+	                        int ai = Integer.parseInt(a.getName().replace(".png", ""));
+	                        int bi = Integer.parseInt(b.getName().replace(".png", ""));
+	                        return ai - bi;
+	                    });
+	                    for (File f : files) imgs.add(ImageIO.read(f));
+	                }
+	            }
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return imgs.toArray(new BufferedImage[0]);
 	}
+
 	
 	
 }
