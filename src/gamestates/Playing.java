@@ -209,10 +209,10 @@ public class Playing extends State implements Statemethods{
 	}
 	
 	public void mouseDragged(MouseEvent e) {
-		if (!gameOver) {
-			if(paused)
-				pauseOverlay.mouseDragged(e);
-		}
+		//if (!gameOver) {
+		//	if(paused)
+		//		pauseOverlay.mouseDragged(e);
+		//}
 	}
 
 	@Override
